@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center fw-bold">📄 Your Leave Applications</h2>
+
+    {% if leaves %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Submitted At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.end_date }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>
+                        {% if leave.status == 'Pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif leave.status == 'Approved' %}
+                            <span class="badge bg-success">Accepted</span>
+                        {% elif leave.status == 'Rejected' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ leave.submitted_at|date:"Y-m-d " }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-center text-muted">You haven't submitted any leave applications yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

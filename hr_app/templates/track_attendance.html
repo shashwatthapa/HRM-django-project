@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container my-5">
+    <h2 class="text-center">Track Attendance</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+            <label for="employee">Select Employee</label>
+            <select class="form-control" name="employee" required>
+                {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <label for="attendance_date">Date</label>
+            <input type="date" class="form-control" name="attendance_date" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="status">Status</label>
+            <select class="form-control" name="status" required>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Leave">Leave</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Track Attendance</button>
+    </form>
+</div>
+{% endblock %}

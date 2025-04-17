@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">All Leave Applications</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave in leave_applications %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ leave.employee }}</td>
+                <td>{{ leave.start_date }}</td>
+                <td>{{ leave.end_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td>
+                    {% if leave.status %}
+                        {{ leave.status }}
+                    {% else %}
+                        Pending
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'approve_leave' leave.pk %}" class="btn btn-success btn-sm">Approve</a>
+                    <a href="{% url 'reject_leave' leave.pk %}" class="btn btn-danger btn-sm">Reject</a>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No leave applications found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

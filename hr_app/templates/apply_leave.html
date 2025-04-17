@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-5">
+    <h2>📝 Apply for Leave</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+{% endblock %}

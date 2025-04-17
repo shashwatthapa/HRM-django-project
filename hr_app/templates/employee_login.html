@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+        <div class="card shadow-lg p-4 border-0 rounded-4">
+            <div class="card-body">
+                <h3 class="text-center text-primary mb-4">Employee Login</h3>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control shadow-sm" placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control shadow-sm" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg shadow">Login</button>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger mt-3 text-center shadow-sm">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

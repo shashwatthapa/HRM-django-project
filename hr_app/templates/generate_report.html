@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container my-5">
+    <h2 class="text-center mb-5 fw-bold">Employee Report</h2>
+
+    {% for data in report_data %}
+    <div class="employee-section mt-5">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Employee: {{ data.employee.first_name }} {{ data.employee.last_name }}</h3>
+            <p class="text-muted">Employee ID: {{ data.employee.id }}</p>
+        </div>
+
+        <!-- Personal Info Section -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">👤 Personal Info</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Name:</strong> {{ data.employee.first_name }} {{ data.employee.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ data.employee.email }}</li>
+                <li class="list-group-item"><strong>Username:</strong> {{ data.employee.user }}</li>
+                <li class="list-group-item"><strong>Phone number:</strong> {{ data.employee.phone_number }}</li>
+                <li class="list-group-item"><strong>Department:</strong> {{ data.employee.department }}</li>
+                <li class="list-group-item"><strong>DOB:</strong> {{ data.employee.date_of_birth }}</li>
+                <li class="list-group-item"><strong>Hired date:</strong> {{ data.employee.date_hired }}</li>
+            </ul>
+        </div>
+
+        <!-- Attendance Section -->
+        <div class="card mt-5 shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">📅 Attendance Records</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attendance in data.attendances %}
+                        <tr>
+                            <td>{{ attendance.date }}</td>
+                            <td>{{ attendance.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No attendance records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payslip Section -->
+        <div class="card mt-5 shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">💰 Payslip History</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Salary</th>
+                            <th>Bonus</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payroll in data.payrolls %}
+                        <tr>
+                            <td>{{ payroll.month }}</td>
+                            <td>Rs.{{ payroll.salary }}</td>
+                            <td>Rs.{{ payroll.bonus }}</td>
+                            <td>Rs.{{ payroll.total_salary }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No payslip records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="card mt-5 shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">📝 Reviews</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Rating</th>
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for review in data.reviews %}
+                        <tr>
+                            <td>{{ review.review_date }}</td>
+                            <td>{{ review.rating }}</td>
+                            <td>{{ review.feedback }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">No reviews available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+    <!-- Download Button -->
+    <div class="text-center mt-5">
+        <a href="#" class="btn btn-primary" id="download_report">Download Report</a>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('download_report').addEventListener('click', function() {
+        var htmlContent = document.documentElement.outerHTML;  // Get the full HTML content of the page
+        var blob = new Blob([htmlContent], { type: 'text/html' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'employee_report.html';  // Name of the file to download
+        link.click();  // Trigger the download
+    });
+</script>
+
+{% endblock %}

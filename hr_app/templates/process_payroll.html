@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container my-5">
+    <h2 class="text-center">Process Payroll for Specific Employee</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group mt-3">
+            <label for="employee_id">Select Employee</label>
+            <select class="form-control" name="employee_id" required>
+                {% for employee in employees %}
+                    <option value="{{ employee.id }}">
+                        {{ employee.first_name }} {{ employee.last_name }} ({{ employee.department }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="month">Month</label>
+            <input type="text" class="form-control" name="month" placeholder="e.g. January" required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="year">Year</label>
+            <input type="number" class="form-control" name="year" placeholder="e.g. 2025" required>
+        </div>
+        <div class="form-group mt-3">
+            <label for="salary">Salary</label>
+            <input type="number" class="form-control" name="salary" placeholder="Rs." required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="bonus">Bonus (Optional)</label>
+            <input type="number" step="0.01" class="form-control" name="bonus" placeholder="e.g. 500.00">
+        </div>
+
+        <button type="submit" class="btn btn-success mt-4">Process Payroll</button>
+    </form>
+</div>
+{% endblock %}
